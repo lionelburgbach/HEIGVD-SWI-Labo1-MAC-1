@@ -122,7 +122,7 @@ Choose the index of the SSID you want to attack:
 
 ```
 
-Il est possible de spécifier l'interface à utiliser, wlan0mon est utilisé par défaut.
+Il est possible de spécifier l'interface à utiliser avec l'arguement -i ou --interface, wlan0mon est utilisé par défaut.
 
 Capture Wireshark d'un Beacon généré avec le script: 
 
@@ -130,11 +130,38 @@ On voit par rapport à l'exemple d'utlisiation, qu'un nouvel AP avec le SSID Lio
 
 ![SSID Flooding Attack - Windows 1](images/fake-channel.png)
 
-__Question__ : Expliquer l'effet de cette attaque sur la cible
+#### Exemple 1: 
+
+Dans cet exemple, nous dupliquons simplement un SSID et nous constatons que lors d'une recherche wifi, nous avons bien deux réseaux wifi avec le même SSID. La cible ici est iPhone de Marie et sur la capture d'écran, nous avons bien notre nouveau réseau. 
 
 ```
-Il n'y a pas d'effet sur la cible. Il faudrait que la cible se déconnecte du vrai AP et se reconnecte, sans le savoir (en y étant forcé, signal plus fort, etc.), sur le faux pour ainsi appliquer une attaque non developpé ici. La première partie du laboratoire pourrait nous aider dans cette tâche.
+root@kali:~/PycharmProjects/SWI_Labo1# python3 SWI-Lab-01-Fake-Channel-Evil-Tween-Attack.py                                                      
+In progress...                                                                                                                                   
++-------+------------------------------+---------+---------+                                                                                     
+| Index |             SSID             | Channel |  Signal |                                                                                     
++-------+------------------------------+---------+---------+                                                                                     
+|   0   |             Lio              |    6    | -33 dBm |                                                                                     
+|   1   |      Mutluer & Nidecker      |    6    | -69 dBm |                                                                                     
+|   2   |       iPhone de Marie        |    6    | -26 dBm |                                                                                     
+|   3   |       Osman Güleroğlu        |    6    | -74 dBm |                                                                                     
+|   4   | HP-Print-37-ENVY 4500 series |    6    | -74 dBm |
++-------+------------------------------+---------+---------+
+
+Choose the index of the SSID you want to attack: 2
+
+You choose to attack : iPhone de Marie
+......................................................................................................................................................................................................................................
+Sent 230 packets.
+
 ```
+
+
+
+<img src="images/fake-channel-exemple.jpeg" alt="SSID Flooding Attack - Windows 1" style="zoom:33%;" />
+
+__Question__ : Expliquer l'effet de cette attaque sur la cible
+
+Il n'y a pas d'effet sur la cible. Il faudrait que la cible se déconnecte du vrai AP et se reconnecte, sans le savoir (en y étant forcé, signal plus fort, etc.), sur le faux pour ainsi appliquer une attaque non developpé ici. La première partie du laboratoire pourrait nous aider dans cette tâche.
 
 
 ### 3. SSID flood attack
