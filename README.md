@@ -39,7 +39,7 @@ b) Développer un script en Python/Scapy capable de générer et envoyer des tra
 * 5 - Disassociated because AP is unable to handle all currently associated stations
 * 8 - Deauthenticated because sending STA is leaving BSS
 
-Chemin du script `/scripts/SWI-Lab-01-Deauth.py`
+Chemin du script `/scripts/SWI-Lab-01-Deauthentication-Attack.py`
 
 Utilisation :
 
@@ -99,7 +99,72 @@ __Question__ : Expliquer l'effet de cette attaque sur la cible
 
 ### 3. SSID flood attack
 
-Développer un script en Python/Scapy capable d'inonder la salle avec des SSID dont le nom correspond à une liste contenue dans un fichier text fournit par un utilisateur. Si l'utilisateur ne possède pas une liste, il peut spécifier le nombre d'AP à générer. Dans ce cas, les SSID seront générés de manière aléatoire.
+Chemin du script `/scripts/SWI-Lab-01-SSID-Flood-Attack.py`
+
+Utilisation:
+
+```
+root@kali:/home/kali/Desktop# python3 SWI-Lab-01-SSID-Flood-Attack.py --help
+usage: SWI-Lab-01-SSID-Flood-Attack.py [-h] [-f FILEPATH] [-c COUNT]
+                                       [-i IFACE]
+
+SWI-Lab-01-SSID-Flood-Attack
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILEPATH, --filepath FILEPATH
+                        File with the list of SSID to generate.
+  -c COUNT, --count COUNT
+                        Number of SSID to generate if no file is provided.
+  -i IFACE, --iface IFACE
+                        Interface used for the attack
+````
+
+Capture Wireshark d'un Beacon généré avec le script:
+
+![SSID Flooding Attack - Windows 1](images/ssid-flooding-attack-wireshark.png)
+
+#### Exemple 1: flooding à partir d'une liste
+
+```
+root@kali:/home/kali/Desktop# cat ssid.txt 
+SWI-4fd3L
+SWI-30yeL
+SWI-d39yM
+SWI-d1yle
+
+root@kali:/home/kali/Desktop# python3 SWI-Lab-01-SSID-Flood-Attack.py --filepath ssid.txt
+SSID: SWI-4fd3L; BSSID: 39:e8:08:10:0e:d9; Channel: 2
+SSID: SWI-30yeL; BSSID: 96:56:9c:61:2d:3a; Channel: 4
+SSID: SWI-d39yM; BSSID: 45:23:0f:57:03:f6; Channel: 1
+SSID: SWI-d1yle; BSSID: cc:cd:1c:fe:6e:f7; Channel: 9
+SSID flooding started...
+```
+
+Visibilité des SSIDs depuis Windows:
+
+![SSID Flooding Attack - Windows 1](images/ssid-flooding-attack-windows-1.png)
+
+#### Exemple 2: flooding avec des SSIDs générés aléatoirement
+
+```
+root@kali:/home/kali/Desktop# python3 SWI-Lab-01-SSID-Flood-Attack.py --count 10
+SSID: A72G5BW6; BSSID: 0f:f9:7d:07:95:24; Channel: 7
+SSID: QQ3FOVO2; BSSID: 1a:f7:56:0c:69:96; Channel: 5
+SSID: YR3S15TE; BSSID: cc:82:05:1f:af:8c; Channel: 4
+SSID: 2901YGB4; BSSID: 0e:87:87:de:1f:68; Channel: 7
+SSID: O2I4UHJJ; BSSID: ab:5c:57:a2:8e:61; Channel: 4
+SSID: 2E28NVIG; BSSID: 8b:0e:11:93:15:2a; Channel: 2
+SSID: IZ1GR83Y; BSSID: ff:1a:e4:6e:e2:59; Channel: 5
+SSID: QF8N4621; BSSID: de:0a:0a:69:79:aa; Channel: 8
+SSID: N22S4B7M; BSSID: b3:c4:9e:b3:31:1c; Channel: 12
+SSID: ST25INYF; BSSID: ee:fc:25:70:88:f1; Channel: 12
+SSID flooding started...
+```
+
+Visibilité des SSIDs depuis Windows:
+
+![SSID Flooding Attack - Windows 2](images/ssid-flooding-attack-windows-2.png)
 
 ## Livrables
 
@@ -116,8 +181,3 @@ Un fork du repo original . Puis, un Pull Request contenant :
 -	Réponses aux éventuelles questions posées dans la donnée. Vous répondez aux questions dans votre ```README.md``` ou dans un pdf séparé
 
 -	Envoyer le hash du commit et votre username GitHub par email au professeur et à l'assistant
-
-
-## Échéance
-
-Le 9 mars 2020 à 23h59
