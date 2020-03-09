@@ -1,17 +1,24 @@
-# Adrien Barth, Lionel Burgbacher
-# 02.03.2020
-# Src: https://www.shellvoide.com/python/forge-and-transmit-de-authentication-packets-over-the-air-in-scapy/
+# Python 3.7.6
+# 
+# Auteurs: Adrien Barth, Lionel Burgbacher
+# Date:    02.03.2020
+# Source:  https://www.shellvoide.com/python/forge-and-transmit-de-authentication-packets-over-the-air-in-scapy/
+# 
+# Description:
+# Développer un script en Python/Scapy capable de générer et envoyer des trames de déauthentification.
+# Le script donne le choix entre des Reason codes différents (liste ci-après)
+# et doit pouvoir déduire si le message doit être envoyé à la STA ou à l'AP :
+#   1 - Unspecified
+#   4 - Disassociated due to inactivity
+#   5 - Disassociated because AP is unable to handle all currently associated stations
+#   8 - Deauthenticated because sending STA is leaving BS
+#
 
 import argparse
 from scapy.all import *
 from scapy.layers.dot11 import RadioTap, Dot11, Dot11Deauth
 
-#1 - Unspecified
-#4 - Disassociated due to inactivity
-#5 - Disassociated because AP is unable to handle all currently associated stations
-#8 - Deauthenticated because sending STA is leaving BSS
-parser = argparse.ArgumentParser(description='802.11 deauth script')
-
+parser = argparse.ArgumentParser(description='SWI-Lab-01-Deauthentication-Attack')
 parser.add_argument("-r", "--reason", required=True, type=int, help="The 802.11 deauthentification reason code.")
 parser.add_argument("-b", "--BSSID", required=True, help="BSSID")
 parser.add_argument("-s", "--STA", required=True, help="STA")
