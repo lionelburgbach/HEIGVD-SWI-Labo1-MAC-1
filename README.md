@@ -24,7 +24,12 @@ __Question__ : quel code est utilisé par aircrack pour déauthentifier un clien
 
 Code 7:	"Class 3 frame received from nonassociated station"
 
-Les trames de classe 3 sont des trames de 
+Les trames de classe 3 comprennent les types suivants:
+* Data frames
+* Management frames
+* Control frames (power management)
+
+Dans ce cas, cela signifie qu'une trame du mauvais type a été reçue par le BSS car celui-ci ne s'attend pas à recevoir une trame de classe 3 à partir d'une STA non-associée, causant ainsi la disassociation du système.
 
 __Question__ : A l'aide d'un filtre d'affichage, essayer de trouver d'autres trames de déauthentification dans votre capture. Avez-vous en trouvé d'autres ? Si oui, quel code contient-elle et quelle est son interpretation ?
 
@@ -71,6 +76,7 @@ La STA se déconnecte (à cause de la qualité du signal ou un changement de SSI
 
 __Question__ : Comment essayer de déauthentifier toutes les STA ?
 
+En observant le traffic il est possible d'identifier les STA actuellement connectés sur le point d'accès et ainsi envoyer des trames de disassiocation à leur place.
 
 __Question__ : Quelle est la différence entre le code 3 et le code 8 de la liste ?
 
