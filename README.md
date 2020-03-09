@@ -15,7 +15,7 @@
 ## Laboratoire 802.11 MAC 1
 
 ### 1. Deauthentication attack
- 
+
 a) Utiliser la fonction de déauthentification de la suite aircrack, capturer les échanges et identifier le Reason code et son interpretation.
 
 **SCREENSHOTS**
@@ -94,7 +94,47 @@ a)	Développer un script en Python/Scapy avec les fonctionnalités suivantes :
 * Permettre à l'utilisateur de choisir le réseau à attaquer
 * Générer un beacon concurrent annonçant un réseau sur un canal différent se trouvant à 6 canaux de séparation du réseau original
 
+Chemin du script `/scripts/SWI-Lab-01-Fake-Channel-Evil-Tween-Attack.py`
+
+Utilisation: 
+
+```
+(venv) root@kali:~/PycharmProjects/SWI_Labo1# python SWI-Lab-01-Fake-Channel-Evil-Tween-Attack.py 
+In progress...
++-------+------------------------------+---------+---------+
+| Index |             SSID             | Channel |  Signal |
++-------+------------------------------+---------+---------+
+|   0   | HP-Print-37-ENVY 4500 series |    6    | -68 dBm |
+|   1   |             Lio              |    6    |  -9 dBm |
+|   2   |      Mutluer & Nidecker      |    6    | -67 dBm |
+|   3   |           net+ Fon           |    6    | -70 dBm |
+|   4   |            mlink             |    6    | -71 dBm |
+|   5   |        netplus-ae41d0        |    6    | -69 dBm |
+|   6   |           net+ Fon           |    6    | -73 dBm |
+|   7   |       PS4-FD00738233A9       |    6    | -71 dBm |
+|   8   |     devolo-f4068d9ef780      |    6    | -72 dBm |
+|   9   |        netplus-6b9298        |    6    | -71 dBm |
+|   10  |          pnu-05961           |    6    | -73 dBm |
+|   11  |          ogg-35243           |    6    | -68 dBm |
++-------+------------------------------+---------+---------+
+
+Choose the index of the SSID you want to attack: 
+
+```
+
+Il est possible de spécifier l'interface à utiliser, wlan0mon est utilisé par défaut.
+
+Capture Wireshark d'un Beacon généré avec le script: 
+
+On voit par rapport à l'exemple d'utlisiation, qu'un nouvel AP avec le SSID Lio et le canal 12 existe. 
+
+![SSID Flooding Attack - Windows 1](images/fake-channel.png)
+
 __Question__ : Expliquer l'effet de cette attaque sur la cible
+
+```
+Il n'y a pas d'effet sur la cible. Il faudrait que la cible se déconnecte du vrai AP et se reconnecte, sans le savoir (en y étant forcé, signal plus fort, etc.), sur le faux pour ainsi appliquer une attaque non developpé ici. La première partie du laboratoire pourrait nous aider dans cette tâche.
+```
 
 
 ### 3. SSID flood attack
