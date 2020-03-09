@@ -14,84 +14,17 @@
 
 ## Laboratoire 802.11 MAC 1
 
-__A faire en équipes de deux personnes__
-
-### Pour cette partie pratique, vous devez être capable de :
-
-*	Détecter si un certain client WiFi se trouve à proximité
-*	Obtenir une liste des SSIDs annoncés par les clients WiFi présents
-
-Vous allez devoir faire des recherches sur internet pour apprendre à utiliser Scapy et la suite aircrack pour vos manipulations. __Il est fortement conseillé d'employer une distribution Kali__ (on ne pourra pas assurer le support avec d'autres distributions). __Si vous utilisez une VM, il vous faudra une interface WiFi usb, disponible sur demande__.
-
-__ATTENTION :__ Pour vos manipulations, il pourrait être important de bien fixer le canal lors de vos captures et/ou vos injections (à vous de déterminer si ceci est nécessaire pour les manipulations suivantes ou pas). Si vous en avez besoin, la méthode la plus sure est d'utiliser l'option :
-
-```--channel``` de ```airodump-ng```
-
-et de garder la fenêtre d'airodump ouverte en permanence pendant que vos scripts tournent ou vos manipulations sont effectuées.
-
-
-## Quelques pistes utiles avant de commencer :
-
-- Si vous devez capturer et injecter du trafic, il faudra configurer votre interface 802.11 en mode monitor.
-- Python a un mode interactif très utile pour le développement. Il suffit de l'invoquer avec la commande ```python```. Ensuite, vous pouvez importer Scapy ou tout autre module nécessaire. En fait, vous pouvez même exécuter tout le script fourni en mode interactif !
-- Scapy fonctionne aussi en mode interactif en invoquant la commande ```scapy```.  
-- Dans le mode interactif, « nom de variable + <enter> » vous retourne le contenu de la variable.
-- Pour visualiser en détail une trame avec Scapy en mode interactif, on utilise la fonction ```show()```. Par exemple, si vous chargez votre trame dans une variable nommée ```beacon```, vous pouvez visualiser tous ces champs et ses valeurs avec la commande ```beacon.show()```. Utilisez cette commande pour connaître les champs disponibles et les formats de chaque champ.
-
-## Travail à réaliser
-
 ### 1. Deauthentication attack
-
-Une STA ou un AP peuvent envoyer une trame de déauthentification pour mettre fin à une connexion.
-
-Les trames de déauthentification sont des trames de management, donc de type 0, avec un sous-type 12 (0x0c). Voici le format de la trame de déauthentification :
-
-![Trame de déauthentification](images/deauth.png)
-
-Le corps de la trame (Frame body) contient, entre autres, un champ de deux octets appelé "Reason Code". Le but de ce champ est d'informer la raison de la déauthentification. Voici toutes les valeurs possibles pour le Reason Code :
-
-| Code | Explication 802.11                                                                                                                                     |
-|------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 0    | Reserved                                                                                                                                              |
-| 1    | Unspecified reason                                                                                                                                    |
-| 2    | Previous authentication no longer valid                                                                                                               |
-| 3    | station is leaving (or has left) IBSS or ESS                                                                                                          |
-| 4    | Disassociated due to inactivity                                                                                                                       |
-| 5    | Disassociated because AP is unable to handle all currently associated stations                                                                        |
-| 6    | Class 2 frame received from nonauthenticated station                                                                                                  |
-| 7    | Class 3 frame received from nonassociated station                                                                                                     |
-| 8    | Disassociated because sending station is leaving (or has left) BSS                                                                                    |
-| 9    | Station requesting (re)association is not authenticated with responding station                                                                       |
-| 10   | Disassociated because the information in the Power Capability element is unacceptable                                                                 |
-| 11   | Disassociated because the information in the Supported Channels element is unacceptable                                                               |
-| 12   | Reserved                                                                                                                                              |
-| 13   | Invalid information element, i.e., an information element defined in this standard for which the content does not meet the specifications in Clause 7 |
-| 14   | Message integrity code (MIC) failure                                                                                                                                              |
-| 15   | 4-Way Handshake timeout                                                                                                                                              |
-| 16   | Group Key Handshake timeout                                                                                                                                              |
-| 17   | Information element in 4-Way Handshake different from (Re)Association Request/Probe Response/Beacon frame                                                                                                                                              |
-| 18   | Invalid group cipher                                                                                                                                              |
-| 19   | Invalid pairwise cipher                                                                                                                                              |
-| 20   | Invalid AKMP                                                                                                                                              |
-| 21   | Unsupported RSN information element version                                                                                                                                              |
-| 22   | Invalid RSN information element capabilities                                                                                                                                              |
-| 23   | IEEE 802.1X authentication failed                                                                                                                                              |
-| 24   | Cipher suite rejected because of the security policy                                                                                                                                              |
-| 25-31 | Reserved                                                                                                                                              |
-| 32 | Disassociated for unspecified, QoS-related reason                                                                                                                                              |
-| 33 | Disassociated because QAP lacks sufficient bandwidth for this QSTA                                                                                                                                              |
-| 34 | Disassociated because excessive number of frames need to be acknowledged, but are not acknowledged due to AP transmissions and/or poor channel conditions                                                                                                                                              |
-| 35 | Disassociated because QSTA is transmitting outside the limits of its TXOPs                                                                                                                                              |
-| 36 | Requested from peer QSTA as the QSTA is leaving the QBSS (or resetting)                                                                                                                                              |
-| 37 | Requested from peer QSTA as it does not want to use the mechanism                                                                                                                                              |
-| 38 | Requested from peer QSTA as the QSTA received frames using the mechanism for which a setup is required                                                                                                                                              |
-| 39 | Requested from peer QSTA due to timeout                                                                                                                                              |
-| 40 | Peer QSTA does not support the requested cipher suite                                                                                                                                              |
-| 46-65535 | Reserved                                                                                                                                              |
  
 a) Utiliser la fonction de déauthentification de la suite aircrack, capturer les échanges et identifier le Reason code et son interpretation.
 
+**SCREENSHOTS**
+
 __Question__ : quel code est utilisé par aircrack pour déauthentifier un client 802.11. Quelle est son interpretation ?
+
+Code 7:	"Class 3 frame received from nonassociated station"
+
+Les trames de classe 3 sont des trames de 
 
 __Question__ : A l'aide d'un filtre d'affichage, essayer de trouver d'autres trames de déauthentification dans votre capture. Avez-vous en trouvé d'autres ? Si oui, quel code contient-elle et quelle est son interpretation ?
 
@@ -101,15 +34,51 @@ b) Développer un script en Python/Scapy capable de générer et envoyer des tra
 * 5 - Disassociated because AP is unable to handle all currently associated stations
 * 8 - Deauthenticated because sending STA is leaving BSS
 
+Chemin du script `/scripts/SWI-Lab-01-Deauth.py`
+
+Utilisation :
+
+```
+root@kali:/home/kali/Desktop# python SWI-Lab-Deauth.py --help
+usage: SWI-Lab-Deauth.py [-h] -r REASON -b BSSID -s STA [-c COUNT]
+
+802.11 deauth script
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r REASON, --reason REASON
+                        The 802.11 deauthentification reason code.
+  -b BSSID, --BSSID BSSID
+                        BSSID
+  -s STA, --STA STA     STA
+  -c COUNT, --count COUNT
+                        Number of packets to send
+```
+
 __Question__ : quels codes/raisons justifient l'envoie de la trame à la STA cible et pourquoi ?
+
+* 1 - Unspecified  
+Nous n'avons pas trouvé 
+* 4 - Disassociated due to inactivity  
+Le BSS a détecté que la STA a atteint le temps limite d'inactivité et est par conséquent disassociée du système.
+* 5 - Disassociated because AP is unable to handle all currently associated stations  
+Le BSS n'arrive plus à supporter la charge actuelle et disassocie la STA pour libérer des ressources.
 
 __Question__ : quels codes/raisons justifient l'envoie de la trame à l'AP et pourquoi ?
 
+* 8 - Deauthenticated because sending STA is leaving BSS  
+La STA se déconnecte (à cause de la qualité du signal ou un changement de SSID par exemple) et notifie ainsi le BSS qu'elle quitte le système.
+
 __Question__ : Comment essayer de déauthentifier toutes les STA ?
+
 
 __Question__ : Quelle est la différence entre le code 3 et le code 8 de la liste ?
 
+Le code 3 est utilisé dans un IBSS ou ESS alors que le code 8 est utilisé pour un BSS.
+
 __Question__ : Expliquer l'effet de cette attaque sur la cible
+
+Le BSS va comprendre que la station à l'intention de quitter la système et va donc invalider sa session. La cible devra s'authentifier à nouveau sur le BSS.
 
 ### 2. Fake channel evil tween attack
 a)	Développer un script en Python/Scapy avec les fonctionnalités suivantes :
